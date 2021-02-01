@@ -1,0 +1,7 @@
+{
+  "csharpextensions.privateMemberPrefix": "_",
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true
+  }
+}
