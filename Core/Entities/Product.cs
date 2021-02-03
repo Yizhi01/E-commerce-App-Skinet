@@ -2,7 +2,7 @@ namespace Core.Entities
 {
     public class Product : BaseEntity
     {
-        // properties: Id, Name
+        // properties: Id, Name, Description, Price, PictureUrl, ProductType, ProductBrand
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

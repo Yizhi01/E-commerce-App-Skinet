@@ -1,3 +1,5 @@
+using API.Helpers;
+using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +25,10 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IProductRepository, ProductRepository>();
+            // set up generic repository and interface
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            // set up AutoMapper for transforming the data to return with DTOs
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             // Add the DbContext 
             services.AddDbContext<StoreContext>(
@@ -40,6 +46,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
