@@ -437,3 +437,4 @@ appsettings.json
 
 # database file
 *.db
+*.rdb
