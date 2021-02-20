@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,10 +24,16 @@ namespace API
                 try 
                 {
                     var context = services.GetRequiredService<StoreContext>();
-                    // Applying the migrations and creating the Database when app startup
+                    // Apply the migrations and creating the Database when app startup
                     await context.Database.MigrateAsync();
-                    // Adding seed data
+                    // Add store seed data
                     await StoreContextSeed.SeedAsync(context, loggerFactory);
+
+                    // Add identity database and seed data
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+                    await identityContext.Database.MigrateAsync();
+                    await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
                 } 
                 catch (Exception ex) 
                 {
